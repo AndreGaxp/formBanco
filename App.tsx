@@ -1,118 +1,89 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { useState } from 'react';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export default function formulario() {
+  const [nome, setNome] = useState('')
+  const [idade, setIdade] = useState('')
+  const [sexo, setSexo] = useState(0)
+  const [sexos, setSexos] = useState([
+    { key: 1, sexoNome: 'Masculino' },
+    { key: 2, sexoNome: 'Feminino' }
+  ])
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  let sexoX = sexos.map((v, k) => {
+    return <Picker.Item key={k} value={k} label={v.sexoNome} />
+  })
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
+    <View style={styles.container}>
+      <Text style={styles.txtForm}>
+        Formulário Teste
       </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
+
+      <TextInput
+        style={styles.input}
+        onChangeText={(novoTexto) => setNome(novoTexto)}
+        placeholder='Digite seu nome'
+      />
+
+      <TextInput
+        style={styles.input}
+        onChangeText={(novoIdade) => setIdade(novoIdade)}
+        placeholder='Digite sua idade'
+      />
+
+
+      <Picker
+        style={styles.picker}
+        selectedValue={sexo}
+        onValueChange={(itemValue, ItemIndex) => setSexo(itemValue)}
+      >
+        {sexoX}
+      </Picker>
+
+<View style={styles.div}></View>
+
+      <Text style={styles.txtForm}>
+        Dados recebidos
       </Text>
+      <Text style={styles.txtFinal}>Nome: {nome}</Text>
+      <Text style={styles.txtFinal}>Idade: {idade}</Text>
+      <Text style={styles.txtFinal}>Sexo: {sexos[sexo].sexoNome}</Text>
     </View>
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
-export default App;
+  txtForm: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+
+  input: {
+    height: 40,
+    borderWidth: 2,
+    margin: 15,
+  },
+
+  txtFinal: {
+    fontSize: 25,
+    marginStart: 20
+  },
+
+  picker: {
+    marginStart: 13,
+  },
+
+  div:{
+    borderBottomWidth: 1,
+    borderColor: '#fffffff',
+    marginTop: 200,
+  }
+})
