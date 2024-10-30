@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Switch } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Switch, Alert, Button } from 'react-native';
 
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
+
+
 
 export default function formulario() {
   const [nome, setNome] = useState('')
@@ -15,10 +17,21 @@ export default function formulario() {
     { key: 2, sexoNome: 'Feminino' }
   ])
 
+  function cadastrar(){
+    Alert.alert(
+      'Dados cadastrados',
+      `\n
+      Nome: ${nome}\n
+      Idade: ${idade}\n
+      Sexo: ${sexo}\n
+      Valor: ${valor.toFixed(0)}.\n
+      Curso superior: ${status}`)
+  }
+
   let sexoX = sexos.map((v, k) => {
     return <Picker.Item key={k} value={k} label={v.sexoNome} />
   })
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer1}>
@@ -61,18 +74,22 @@ export default function formulario() {
           onValueChange={(valorSelecionado) => setValor(valorSelecionado)}
           style={styles.txtSlider}
         />
-        <Text style={styles.txtSlider}>Valor: {valor.toFixed(0)}</Text>
+        <Text style={styles.txtSlider}>Valor: {valor.toFixed(0)} R$</Text>
 
 
-
-        <Text style={styles.txtSlider}>
-          Está cursando algum curso superior?
-        </Text>
-        <Switch
-          value={status}
-          onValueChange={(valorSelecionado) => setStatus(valorSelecionado)}
-        />
+        <View style={styles.containerSwitch}>
+          <Text style={styles.txtSlider}>
+            Possui curso superior?
+          </Text>
+          <Switch
+            style={styles.switch}
+            value={status}
+            onValueChange={(valorSelecionado) => setStatus(valorSelecionado)}
+          />
+        </View>
       </View>
+
+      <Button title='Cadastrar' onPress={cadastrar} />
     </View>
   );
 }
@@ -139,5 +156,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginStart: 20,
     marginTop: 10,
+    marginBottom: 10,
+  },
+
+  containerSwitch:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+
+  switch:{
+    marginEnd: 20,
   }
 })
+
