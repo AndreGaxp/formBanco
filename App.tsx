@@ -24,7 +24,7 @@ export default function formulario() {
       Nome: ${nome}\n
       Idade: ${idade}\n
       Sexo: ${sexo}\n
-      Valor: ${valor.toFixed(0)}.\n
+      Valor: ${valor.toFixed(2)}.\n
       Curso superior: ${status}`)
   }
 
