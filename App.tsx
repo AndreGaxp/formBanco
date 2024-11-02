@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Switch, Alert, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Switch, Alert, Button, Modal } from 'react-native';
 
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
@@ -17,21 +17,16 @@ export default function formulario() {
     { key: 2, sexoNome: 'Feminino' }
   ])
 
-  function cadastrar(){
-    Alert.alert(
-      'Dados cadastrados',
-      `\n
-      Nome: ${nome}\n
-      Idade: ${idade}\n
-      Sexo: ${sexo}\n
-      Valor: ${valor.toFixed(2)}.\n
-      Curso superior: ${status}`)
+  const [modalVisible, setModalVisible] = useState(false);
+
+  function abrirModal() {
+    setModalVisible(true);
   }
 
   let sexoX = sexos.map((v, k) => {
     return <Picker.Item key={k} value={k} label={v.sexoNome} />
   })
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer1}>
@@ -89,7 +84,18 @@ export default function formulario() {
         </View>
       </View>
 
-      <Button title='Cadastrar' onPress={cadastrar} />
+      <Button title='Cadastrar' onPress={abrirModal} />
+
+        <Modal visible={modalVisible} style={styles.modalV}>
+          <View style={styles.viewModal}>
+            <Text style={styles.txtModal}>'Dados cadastrados',{'\n'}
+              Nome: {nome} {'\n'}
+              Idade: {idade} {'\n'}
+              Sexo: {sexo} {'\n'}
+              Valor: {valor.toFixed(2)}. {'\n'}
+              Curso superior: {status}</Text>
+          </View>
+        </Modal>
     </View>
   );
 }
@@ -159,14 +165,33 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  containerSwitch:{
+  containerSwitch: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
   },
 
-  switch:{
+  switch: {
     marginEnd: 20,
+  },
+
+  viewModal: {
+    margin: 30,
+    backgroundColor: '#612F74',
+    width: '90%',
+    height: 300,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  
+  modalV:{
+    justifyContent: 'flex-end',
+  },
+
+  txtModal: {
+
+    fontSize: 30,
   }
 })
 
